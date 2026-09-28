@@ -1,406 +1,783 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arbeitsplanung</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arbeitsplanung</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+*{box-sizing:border-box}
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f4f6f8;
-      color: #18202a;
-    }
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#f4f6f8;
+  color:#18202a;
+}
 
-    .app {
-      max-width: 900px;
-      margin: auto;
-      padding: 18px;
-    }
+.app{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
 
-    h1 {
-      margin: 5px 0 18px;
-      font-size: 26px;
-    }
+h1{
+  margin:5px 0 18px;
+  font-size:27px;
+}
 
-    .tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+}
 
-    .tab {
-      flex: 1;
-      border: none;
-      border-radius: 10px;
-      padding: 13px;
-      font-size: 16px;
-      font-weight: 700;
-      background: #e1e5ea;
-      cursor: pointer;
-    }
+.tab{
+  flex:1;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  font-size:17px;
+  font-weight:800;
+  background:#e1e5ea;
+  cursor:pointer;
+}
 
-    .tab.active {
-      background: #1f2937;
-      color: white;
-    }
+.tab.active{
+  background:#1f2937;
+  color:white;
+}
 
-    .week {
-      display: none;
-    }
+.week{display:none}
+.week.active{display:block}
 
-    .week.active {
-      display: block;
-    }
+.section-title{
+  color:#6b7280;
+  margin-bottom:10px;
+  font-size:14px;
+}
 
-    .section-title {
-      font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 8px;
-    }
+.columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
 
-    .columns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
+.box{
+  background:white;
+  border-radius:16px;
+  padding:14px;
+  min-height:320px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
 
-    .box {
-      background: white;
-      border-radius: 14px;
-      padding: 14px;
-      min-height: 330px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
+.box-title{
+  font-size:19px;
+  font-weight:800;
+}
 
-    .box-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
+.count{
+  font-size:14px;
+  font-weight:800;
+  color:#4b5563;
+  margin:3px 0 14px;
+}
 
-    .count {
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 14px;
-      color: #4b5563;
-    }
+.person{
+  width:100%;
+  border:0;
+  background:#f0f3f5;
+  border-radius:10px;
+  padding:12px 5px;
+  margin-bottom:8px;
+  font-size:17px;
+  font-weight:800;
+  cursor:pointer;
+}
 
-    .person {
-      width: 100%;
-      background: #f1f3f5;
-      border: none;
-      border-radius: 9px;
-      padding: 12px;
-      margin-bottom: 8px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: center;
-    }
+.absent .person{
+  background:#fde3e3;
+}
 
-    .person:active {
-      transform: scale(.98);
-    }
+.action{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:15px;
+  font-size:17px;
+  font-weight:800;
+  cursor:pointer;
+  margin-top:16px;
+}
 
-    .absent .person {
-      background: #fde8e8;
-    }
+.primary{
+  background:#1f2937;
+  color:white;
+}
 
-    .hint {
-      text-align: center;
-      margin-top: 14px;
-      color: #7b8490;
-      font-size: 12px;
-    }
+.secondary{
+  background:#e5e7eb;
+  color:#18202a;
+}
 
-    .reset {
-      width: 100%;
-      margin-top: 15px;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      background: #e5e7eb;
-    }
+.plan-area{
+  margin-top:24px;
+}
 
-    .b-card {
-      background: white;
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
+.plan-title{
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:12px;
+}
 
-    .day {
-      font-size: 17px;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
+.vehicle{
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:11px;
+}
 
-    .shift {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
+.vehicle-title{
+  font-size:17px;
+  font-weight:900;
+  margin-bottom:10px;
+}
 
-    .shift span {
-      font-size: 13px;
-      font-weight: 700;
-      color: #4b5563;
-    }
+.vehicle-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:6px 0;
+  border-top:1px solid rgba(0,0,0,.08);
+}
 
-    select {
-      width: 100%;
-      padding: 10px;
-      border-radius: 9px;
-      border: 1px solid #d1d5db;
-      background: white;
-      font-size: 15px;
-    }
+.vehicle-row:first-of-type{
+  border-top:0;
+}
 
-    @media (max-width: 600px) {
-      .app {
-        padding: 12px;
-      }
+.role{
+  font-weight:600;
+}
 
-      h1 {
-        font-size: 22px;
-      }
+.number{
+  font-weight:900;
+}
 
-      .columns {
-        gap: 8px;
-      }
+.green{background:#dfeee4}
+.blue{background:#dfeaf5}
+.red{background:#efdfdf}
+.gray{background:#e4e6e8}
 
-      .box {
-        padding: 10px;
-        min-height: 300px;
-      }
+.reserve{
+  background:white;
+  border:2px solid #e5e7eb;
+}
 
-      .person {
-        padding: 11px 4px;
-      }
-    }
-  </style>
+.warning{
+  background:#fff3cd;
+  border:1px solid #ffe08a;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:12px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.summary{
+  background:white;
+  border-radius:12px;
+  padding:12px 14px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.hint{
+  text-align:center;
+  color:#7b8490;
+  font-size:12px;
+  margin-top:12px;
+}
+
+.b-card{
+  background:white;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.day{
+  font-weight:900;
+  font-size:17px;
+  margin-bottom:10px;
+}
+
+.shift{
+  display:grid;
+  grid-template-columns:110px 1fr;
+  gap:10px;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.shift span{
+  font-size:13px;
+  font-weight:700;
+}
+
+select{
+  width:100%;
+  padding:10px;
+  border-radius:9px;
+  border:1px solid #d1d5db;
+  background:white;
+  font-size:15px;
+}
+
+@media(max-width:600px){
+  .app{padding:12px}
+  h1{font-size:24px}
+  .columns{gap:8px}
+  .box{padding:10px}
+  .person{padding:11px 3px}
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <h1>Arbeitsplanung</h1>
+<h1>Arbeitsplanung</h1>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showWeek('a', this)">A-Woche</button>
-    <button class="tab" onclick="showWeek('b', this)">B-Woche</button>
-  </div>
+<div class="tabs">
+  <button class="tab active" onclick="showWeek('a',this)">A-Woche</button>
+  <button class="tab" onclick="showWeek('b',this)">B-Woche</button>
+</div>
+
+<!-- A-WOCHE -->
+
+<section id="week-a" class="week active">
+
+<div class="section-title">
+Beamte durch Antippen zwischen Anwesend und Abwesend verschieben
+</div>
+
+<div class="columns">
+
+<div class="box">
+  <div class="box-title">Anwesend</div>
+  <div class="count" id="presentCount"></div>
+  <div id="present"></div>
+</div>
+
+<div class="box absent">
+  <div class="box-title">Abwesend</div>
+  <div class="count" id="absentCount"></div>
+  <div id="absent"></div>
+</div>
+
+</div>
+
+<button class="action primary" onclick="createPlan()">
+Besatzung erstellen
+</button>
+
+<div id="planArea" class="plan-area"></div>
+
+<div class="hint">
+Anwesenheit wird auf diesem Gerät gespeichert.
+</div>
+
+<button class="action secondary" onclick="resetAWeek()">
+A-Woche zurücksetzen
+</button>
+
+</section>
 
 
-  <!-- A WOCHE -->
-  <section id="week-a" class="week active">
+<!-- B-WOCHE -->
 
-    <div class="section-title">
-      Beamte durch Antippen zwischen Anwesend und Abwesend verschieben
-    </div>
+<section id="week-b" class="week">
 
-    <div class="columns">
+<div class="section-title">
+B-Woche · täglich 08:00–20:00 und 20:00–08:00
+</div>
 
-      <div class="box">
+<div id="bWeek"></div>
 
-        <div class="box-title">Anwesend</div>
-        <div class="count" id="presentCount"></div>
+<button class="action secondary" onclick="resetBWeek()">
+B-Woche zurücksetzen
+</button>
 
-        <div id="present"></div>
-
-      </div>
-
-
-      <div class="box absent">
-
-        <div class="box-title">Abwesend</div>
-        <div class="count" id="absentCount"></div>
-
-        <div id="absent"></div>
-
-      </div>
-
-    </div>
-
-    <div class="hint">
-      Änderungen werden automatisch auf diesem Gerät gespeichert.
-    </div>
-
-    <button class="reset" onclick="resetAWeek()">
-      A-Woche zurücksetzen
-    </button>
-
-  </section>
-
-
-  <!-- B WOCHE -->
-  <section id="week-b" class="week">
-
-    <div class="section-title">
-      B-Woche · täglich 08:00–20:00 und 20:00–08:00
-    </div>
-
-    <div id="bWeek"></div>
-
-    <button class="reset" onclick="resetBWeek()">
-      B-Woche zurücksetzen
-    </button>
-
-  </section>
+</section>
 
 </div>
 
 
 <script>
 
-const employees = [
-  "310",
-  "320",
-  "311",
-  "314",
-  "315",
-  "316",
-  "317",
-  "318",
-  "319",
-  "322",
-  "911",
-  "922",
-  "924"
+const employees=[
+"310","320","311","314","315","316","317",
+"318","319","322","911","922","924"
 ];
 
-let present = JSON.parse(localStorage.getItem("aWeekPresent"));
+const qualifications={
+"310":["Führung","PS"],
+"320":["Führung","OT","OAE"],
+"311":["Führung","Taktiker","PS","HIT"],
+"314":["Führung","San","ULS"],
+"315":["OT","Taktiker"],
+"316":["PS","OAE","ST"],
+"317":["OT","OAE"],
+"318":["PS"],
+"319":["OAE","OT"],
+"322":["San"],
+"911":["FNG"],
+"922":["FNG"],
+"924":["FNG"]
+};
 
-if (!present) {
-  present = [...employees];
+let present=JSON.parse(localStorage.getItem("aWeekPresent"));
+
+if(!present){
+  present=[...employees];
 }
 
-function renderAWeek() {
+function renderAWeek(){
 
-  const presentContainer = document.getElementById("present");
-  const absentContainer = document.getElementById("absent");
+  const p=document.getElementById("present");
+  const a=document.getElementById("absent");
 
-  presentContainer.innerHTML = "";
-  absentContainer.innerHTML = "";
+  p.innerHTML="";
+  a.innerHTML="";
 
-  const absent = employees.filter(x => !present.includes(x));
+  const absent=employees.filter(x=>!present.includes(x));
 
-  present.forEach(id => {
-    const button = document.createElement("button");
-    button.className = "person";
-    button.textContent = id;
+  present.forEach(id=>{
+    const b=document.createElement("button");
+    b.className="person";
+    b.textContent=id;
 
-    button.onclick = () => {
-      present = present.filter(x => x !== id);
-      saveAWeek();
+    b.onclick=()=>{
+      present=present.filter(x=>x!==id);
+      saveAttendance();
     };
 
-    presentContainer.appendChild(button);
+    p.appendChild(b);
   });
 
+  absent.forEach(id=>{
+    const b=document.createElement("button");
+    b.className="person";
+    b.textContent=id;
 
-  absent.forEach(id => {
-    const button = document.createElement("button");
-    button.className = "person";
-    button.textContent = id;
-
-    button.onclick = () => {
+    b.onclick=()=>{
       present.push(id);
-
-      present.sort(
-        (a,b) => employees.indexOf(a) - employees.indexOf(b)
-      );
-
-      saveAWeek();
+      present.sort((x,y)=>employees.indexOf(x)-employees.indexOf(y));
+      saveAttendance();
     };
 
-    absentContainer.appendChild(button);
+    a.appendChild(b);
   });
 
+  document.getElementById("presentCount").textContent=
+    "Gesamt: "+present.length;
 
-  document.getElementById("presentCount").textContent =
-    "Gesamt: " + present.length;
-
-  document.getElementById("absentCount").textContent =
-    "Gesamt: " + absent.length;
+  document.getElementById("absentCount").textContent=
+    "Gesamt: "+absent.length;
 }
 
+function saveAttendance(){
 
-function saveAWeek() {
   localStorage.setItem(
     "aWeekPresent",
     JSON.stringify(present)
   );
 
+  localStorage.removeItem("aWeekPlan");
+
+  document.getElementById("planArea").innerHTML="";
+
   renderAWeek();
 }
 
 
-function resetAWeek() {
+function hasQualification(id,q){
+  return qualifications[id]?.includes(q);
+}
 
-  if (!confirm("A-Woche wirklich zurücksetzen?")) return;
+function firstAvailable(candidates,used){
 
-  present = [...employees];
+  return candidates.find(
+    id=>present.includes(id) && !used.has(id)
+  ) || null;
+}
+
+
+function createPlan(){
+
+  const used=new Set();
+  const warnings=[];
+
+  let leader=null;
+  let deputy=null;
+  let ot1=null;
+  let ot2=null;
+  let ps=null;
+  let san=null;
+  let trooper1=null;
+  let trooper2=null;
+
+
+  // Führung
+  if(present.includes("310")){
+    leader="310";
+    used.add("310");
+  }else{
+    warnings.push(
+      "Keine reguläre Führung vorhanden: 310 ist abwesend."
+    );
+  }
+
+
+  // Stellvertreter
+  if(present.includes("320") && !used.has("320")){
+    deputy="320";
+  }else if(present.includes("311") && !used.has("311")){
+    deputy="311";
+  }else if(present.includes("314") && !used.has("314")){
+    deputy="314";
+  }
+
+  if(deputy){
+    used.add(deputy);
+  }else{
+    warnings.push("Kein Stellvertreter verfügbar.");
+  }
+
+
+  /*
+    OT:
+    319 und 911 werden erst ab Frühjahr 2027
+    als OT berücksichtigt.
+  */
+
+  const otCandidates=["315","317"];
+
+  ot1=firstAvailable(otCandidates,used);
+
+  if(ot1){
+    used.add(ot1);
+  }
+
+  ot2=firstAvailable(otCandidates,used);
+
+  if(ot2){
+    used.add(ot2);
+  }
+
+  if(!ot1 || !ot2){
+    warnings.push("Zwei OT können aktuell nicht besetzt werden.");
+  }
+
+
+  // PS
+  const psCandidates=["316","318","311","310"];
+
+  ps=firstAvailable(psCandidates,used);
+
+  if(ps){
+    used.add(ps);
+  }else{
+    warnings.push("Kein PS verfügbar.");
+  }
+
+
+  // San
+  const sanCandidates=["322","314"];
+
+  san=firstAvailable(sanCandidates,used);
+
+  if(san){
+    used.add(san);
+  }else{
+    warnings.push("Kein San verfügbar.");
+  }
+
+
+  // Trooper
+  const remaining=present.filter(id=>!used.has(id));
+
+  if(remaining.length){
+    trooper1=remaining.shift();
+    used.add(trooper1);
+  }
+
+  if(remaining.length){
+    trooper2=remaining.shift();
+    used.add(trooper2);
+  }
+
+  if(!trooper1 || !trooper2){
+    warnings.push("Zwei Trooper können nicht vollständig besetzt werden.");
+  }
+
+
+  const reserve=present.filter(id=>!used.has(id));
+
+  const plan={
+    leader,
+    deputy,
+    ot1,
+    ot2,
+    ps,
+    san,
+    trooper1,
+    trooper2,
+    reserve,
+    warnings
+  };
+
+  localStorage.setItem(
+    "aWeekPlan",
+    JSON.stringify(plan)
+  );
+
+  renderPlan(plan);
+}
+
+
+function vehicle(title,className,roles){
+
+  let html=`
+  <div class="vehicle ${className}">
+    <div class="vehicle-title">${title}</div>
+  `;
+
+  roles.forEach(r=>{
+    html+=`
+    <div class="vehicle-row">
+      <span class="role">${r[0]}</span>
+      <span class="number">${r[1] || "—"}</span>
+    </div>
+    `;
+  });
+
+  html+="</div>";
+
+  return html;
+}
+
+
+function buildReserveGroups(reserve){
+
+  if(reserve.length===0){
+    return [];
+  }
+
+  if(reserve.length===1){
+    return [[reserve[0]]];
+  }
+
+  const groups=[];
+  let list=[...reserve];
+
+  while(list.length>0){
+
+    if(list.length===5){
+      groups.push(list.splice(0,2));
+      groups.push(list.splice(0,3));
+      break;
+    }
+
+    if(list.length===6){
+      groups.push(list.splice(0,3));
+      groups.push(list.splice(0,3));
+      break;
+    }
+
+    if(list.length<=4){
+      groups.push(list.splice(0,list.length));
+      break;
+    }
+
+    groups.push(list.splice(0,4));
+  }
+
+  return groups;
+}
+
+
+function renderPlan(plan){
+
+  const area=document.getElementById("planArea");
+
+  let html=`<div class="plan-title">Kfz-Besatzung</div>`;
+
+  if(plan.warnings.length){
+
+    html+=`
+    <div class="warning">
+      ${plan.warnings.join("<br>")}
+    </div>
+    `;
+  }
+
+  html+=`
+  <div class="summary">
+    Kernbesatzung: ${[
+      plan.leader,
+      plan.deputy,
+      plan.ot1,
+      plan.ot2,
+      plan.ps,
+      plan.san,
+      plan.trooper1,
+      plan.trooper2
+    ].filter(Boolean).length} / 8
+    · Reserve: ${plan.reserve.length}
+    · Gesamt: ${present.length}
+  </div>
+  `;
+
+
+  html+=vehicle(
+    "Fahrzeug 1",
+    "green",
+    [
+      ["Führung",plan.leader],
+      ["Trooper 1",plan.trooper1]
+    ]
+  );
+
+
+  html+=vehicle(
+    "Fahrzeug 2",
+    "blue",
+    [
+      ["Stellvertreter",plan.deputy],
+      ["OT 1",plan.ot1]
+    ]
+  );
+
+
+  html+=vehicle(
+    "Fahrzeug 3",
+    "red",
+    [
+      ["OT 2",plan.ot2],
+      ["PS",plan.ps]
+    ]
+  );
+
+
+  html+=vehicle(
+    "Fahrzeug 4",
+    "gray",
+    [
+      ["San",plan.san],
+      ["Trooper 2",plan.trooper2]
+    ]
+  );
+
+
+  const reserveGroups=buildReserveGroups(plan.reserve);
+
+  reserveGroups.forEach((group,index)=>{
+
+    html+=`
+    <div class="vehicle reserve">
+      <div class="vehicle-title">
+        Reservefahrzeug ${index+1}
+      </div>
+    `;
+
+    group.forEach(id=>{
+
+      html+=`
+      <div class="vehicle-row">
+        <span class="role">Reserve</span>
+        <span class="number">${id}</span>
+      </div>
+      `;
+    });
+
+    html+="</div>";
+  });
+
+
+  if(plan.reserve.length===1){
+
+    html+=`
+    <div class="warning">
+      Reserve enthält nur eine Person.
+      Ein Einzelfahrer ist nach der Planungsregel nicht zulässig.
+    </div>
+    `;
+  }
+
+
+  area.innerHTML=html;
+}
+
+
+function resetAWeek(){
+
+  if(!confirm("A-Woche wirklich zurücksetzen?")){
+    return;
+  }
+
+  present=[...employees];
 
   localStorage.removeItem("aWeekPresent");
+  localStorage.removeItem("aWeekPlan");
+
+  document.getElementById("planArea").innerHTML="";
 
   renderAWeek();
 }
 
 
 
-const days = [
-  "Montag",
-  "Dienstag",
-  "Mittwoch",
-  "Donnerstag",
-  "Freitag",
-  "Samstag",
-  "Sonntag"
+/* B-WOCHE */
+
+const days=[
+"Montag",
+"Dienstag",
+"Mittwoch",
+"Donnerstag",
+"Freitag",
+"Samstag",
+"Sonntag"
 ];
 
+let bPlan=
+JSON.parse(localStorage.getItem("bWeekPlan")) || {};
 
-let bPlan =
-  JSON.parse(localStorage.getItem("bWeekPlan")) || {};
+function renderBWeek(){
 
+  const container=document.getElementById("bWeek");
 
-function renderBWeek() {
+  container.innerHTML="";
 
-  const container = document.getElementById("bWeek");
+  days.forEach(day=>{
 
-  container.innerHTML = "";
+    const card=document.createElement("div");
 
-  days.forEach(day => {
+    card.className="b-card";
 
-    const card = document.createElement("div");
-    card.className = "b-card";
+    const title=document.createElement("div");
 
-    const title = document.createElement("div");
-    title.className = "day";
-    title.textContent = day;
+    title.className="day";
+    title.textContent=day;
 
     card.appendChild(title);
 
-
     card.appendChild(
-      createShift(day, "day", "08:00–20:00")
+      createShift(day,"day","08:00–20:00")
     );
 
     card.appendChild(
-      createShift(day, "night", "20:00–08:00")
+      createShift(day,"night","20:00–08:00")
     );
 
     container.appendChild(card);
@@ -408,51 +785,45 @@ function renderBWeek() {
 }
 
 
-function createShift(day, type, label) {
+function createShift(day,type,label){
 
-  const row = document.createElement("div");
-  row.className = "shift";
+  const row=document.createElement("div");
+  row.className="shift";
 
-  const name = document.createElement("span");
-  name.textContent = label;
+  const name=document.createElement("span");
+  name.textContent=label;
 
-  const select = document.createElement("select");
+  const select=document.createElement("select");
 
-  const empty = document.createElement("option");
-  empty.value = "";
-  empty.textContent = "– auswählen –";
+  const empty=document.createElement("option");
+  empty.value="";
+  empty.textContent="– auswählen –";
 
   select.appendChild(empty);
 
+  employees.forEach(employee=>{
 
-  employees.forEach(employee => {
+    const option=document.createElement("option");
 
-    const option = document.createElement("option");
-
-    option.value = employee;
-    option.textContent = employee;
+    option.value=employee;
+    option.textContent=employee;
 
     select.appendChild(option);
-
   });
 
+  const key=day+"_"+type;
 
-  const key = day + "_" + type;
+  select.value=bPlan[key] || "";
 
-  select.value = bPlan[key] || "";
+  select.onchange=()=>{
 
-
-  select.onchange = () => {
-
-    bPlan[key] = select.value;
+    bPlan[key]=select.value;
 
     localStorage.setItem(
       "bWeekPlan",
       JSON.stringify(bPlan)
     );
-
   };
-
 
   row.appendChild(name);
   row.appendChild(select);
@@ -461,11 +832,13 @@ function createShift(day, type, label) {
 }
 
 
-function resetBWeek() {
+function resetBWeek(){
 
-  if (!confirm("B-Woche wirklich zurücksetzen?")) return;
+  if(!confirm("B-Woche wirklich zurücksetzen?")){
+    return;
+  }
 
-  bPlan = {};
+  bPlan={};
 
   localStorage.removeItem("bWeekPlan");
 
@@ -473,20 +846,17 @@ function resetBWeek() {
 }
 
 
+function showWeek(week,button){
 
-function showWeek(week, button) {
+  document.querySelectorAll(".week")
+  .forEach(x=>x.classList.remove("active"));
 
-  document
-    .querySelectorAll(".week")
-    .forEach(x => x.classList.remove("active"));
-
-  document
-    .querySelectorAll(".tab")
-    .forEach(x => x.classList.remove("active"));
+  document.querySelectorAll(".tab")
+  .forEach(x=>x.classList.remove("active"));
 
   document
-    .getElementById("week-" + week)
-    .classList.add("active");
+  .getElementById("week-"+week)
+  .classList.add("active");
 
   button.classList.add("active");
 }
@@ -494,6 +864,13 @@ function showWeek(week, button) {
 
 renderAWeek();
 renderBWeek();
+
+const savedPlan=
+JSON.parse(localStorage.getItem("aWeekPlan"));
+
+if(savedPlan){
+  renderPlan(savedPlan);
+}
 
 </script>
 
