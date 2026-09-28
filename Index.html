@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arbeitsplanung</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f6f8;
+      color: #18202a;
+    }
+
+    .app {
+      max-width: 900px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    h1 {
+      margin: 5px 0 18px;
+      font-size: 26px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .tab {
+      flex: 1;
+      border: none;
+      border-radius: 10px;
+      padding: 13px;
+      font-size: 16px;
+      font-weight: 700;
+      background: #e1e5ea;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: #1f2937;
+      color: white;
+    }
+
+    .week {
+      display: none;
+    }
+
+    .week.active {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .box {
+      background: white;
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 330px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .box-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .count {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: #4b5563;
+    }
+
+    .person {
+      width: 100%;
+      background: #f1f3f5;
+      border: none;
+      border-radius: 9px;
+      padding: 12px;
+      margin-bottom: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .person:active {
+      transform: scale(.98);
+    }
+
+    .absent .person {
+      background: #fde8e8;
+    }
+
+    .hint {
+      text-align: center;
+      margin-top: 14px;
+      color: #7b8490;
+      font-size: 12px;
+    }
+
+    .reset {
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      background: #e5e7eb;
+    }
+
+    .b-card {
+      background: white;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .day {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .shift {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .shift span {
+      font-size: 13px;
+      font-weight: 700;
+      color: #4b5563;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 9px;
+      border: 1px solid #d1d5db;
+      background: white;
+      font-size: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .app {
+        padding: 12px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .columns {
+        gap: 8px;
+      }
+
+      .box {
+        padding: 10px;
+        min-height: 300px;
+      }
+
+      .person {
+        padding: 11px 4px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <h1>Arbeitsplanung</h1>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showWeek('a', this)">A-Woche</button>
+    <button class="tab" onclick="showWeek('b', this)">B-Woche</button>
+  </div>
+
+
+  <!-- A WOCHE -->
+  <section id="week-a" class="week active">
+
+    <div class="section-title">
+      Beamte durch Antippen zwischen Anwesend und Abwesend verschieben
+    </div>
+
+    <div class="columns">
+
+      <div class="box">
+
+        <div class="box-title">Anwesend</div>
+        <div class="count" id="presentCount"></div>
+
+        <div id="present"></div>
+
+      </div>
+
+
+      <div class="box absent">
+
+        <div class="box-title">Abwesend</div>
+        <div class="count" id="absentCount"></div>
+
+        <div id="absent"></div>
+
+      </div>
+
+    </div>
+
+    <div class="hint">
+      Änderungen werden automatisch auf diesem Gerät gespeichert.
+    </div>
+
+    <button class="reset" onclick="resetAWeek()">
+      A-Woche zurücksetzen
+    </button>
+
+  </section>
+
+
+  <!-- B WOCHE -->
+  <section id="week-b" class="week">
+
+    <div class="section-title">
+      B-Woche · täglich 08:00–20:00 und 20:00–08:00
+    </div>
+
+    <div id="bWeek"></div>
+
+    <button class="reset" onclick="resetBWeek()">
+      B-Woche zurücksetzen
+    </button>
+
+  </section>
+
+</div>
+
+
+<script>
+
+const employees = [
+  "310",
+  "320",
+  "311",
+  "314",
+  "315",
+  "316",
+  "317",
+  "318",
+  "319",
+  "322",
+  "911",
+  "922",
+  "924"
+];
+
+let present = JSON.parse(localStorage.getItem("aWeekPresent"));
+
+if (!present) {
+  present = [...employees];
+}
+
+function renderAWeek() {
+
+  const presentContainer = document.getElementById("present");
+  const absentContainer = document.getElementById("absent");
+
+  presentContainer.innerHTML = "";
+  absentContainer.innerHTML = "";
+
+  const absent = employees.filter(x => !present.includes(x));
+
+  present.forEach(id => {
+    const button = document.createElement("button");
+    button.className = "person";
+    button.textContent = id;
+
+    button.onclick = () => {
+      present = present.filter(x => x !== id);
+      saveAWeek();
+    };
+
+    presentContainer.appendChild(button);
+  });
+
+
+  absent.forEach(id => {
+    const button = document.createElement("button");
+    button.className = "person";
+    button.textContent = id;
+
+    button.onclick = () => {
+      present.push(id);
+
+      present.sort(
+        (a,b) => employees.indexOf(a) - employees.indexOf(b)
+      );
+
+      saveAWeek();
+    };
+
+    absentContainer.appendChild(button);
+  });
+
+
+  document.getElementById("presentCount").textContent =
+    "Gesamt: " + present.length;
+
+  document.getElementById("absentCount").textContent =
+    "Gesamt: " + absent.length;
+}
+
+
+function saveAWeek() {
+  localStorage.setItem(
+    "aWeekPresent",
+    JSON.stringify(present)
+  );
+
+  renderAWeek();
+}
+
+
+function resetAWeek() {
+
+  if (!confirm("A-Woche wirklich zurücksetzen?")) return;
+
+  present = [...employees];
+
+  localStorage.removeItem("aWeekPresent");
+
+  renderAWeek();
+}
+
+
+
+const days = [
+  "Montag",
+  "Dienstag",
+  "Mittwoch",
+  "Donnerstag",
+  "Freitag",
+  "Samstag",
+  "Sonntag"
+];
+
+
+let bPlan =
+  JSON.parse(localStorage.getItem("bWeekPlan")) || {};
+
+
+function renderBWeek() {
+
+  const container = document.getElementById("bWeek");
+
+  container.innerHTML = "";
+
+  days.forEach(day => {
+
+    const card = document.createElement("div");
+    card.className = "b-card";
+
+    const title = document.createElement("div");
+    title.className = "day";
+    title.textContent = day;
+
+    card.appendChild(title);
+
+
+    card.appendChild(
+      createShift(day, "day", "08:00–20:00")
+    );
+
+    card.appendChild(
+      createShift(day, "night", "20:00–08:00")
+    );
+
+    container.appendChild(card);
+  });
+}
+
+
+function createShift(day, type, label) {
+
+  const row = document.createElement("div");
+  row.className = "shift";
+
+  const name = document.createElement("span");
+  name.textContent = label;
+
+  const select = document.createElement("select");
+
+  const empty = document.createElement("option");
+  empty.value = "";
+  empty.textContent = "– auswählen –";
+
+  select.appendChild(empty);
+
+
+  employees.forEach(employee => {
+
+    const option = document.createElement("option");
+
+    option.value = employee;
+    option.textContent = employee;
+
+    select.appendChild(option);
+
+  });
+
+
+  const key = day + "_" + type;
+
+  select.value = bPlan[key] || "";
+
+
+  select.onchange = () => {
+
+    bPlan[key] = select.value;
+
+    localStorage.setItem(
+      "bWeekPlan",
+      JSON.stringify(bPlan)
+    );
+
+  };
+
+
+  row.appendChild(name);
+  row.appendChild(select);
+
+  return row;
+}
+
+
+function resetBWeek() {
+
+  if (!confirm("B-Woche wirklich zurücksetzen?")) return;
+
+  bPlan = {};
+
+  localStorage.removeItem("bWeekPlan");
+
+  renderBWeek();
+}
+
+
+
+function showWeek(week, button) {
+
+  document
+    .querySelectorAll(".week")
+    .forEach(x => x.classList.remove("active"));
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(x => x.classList.remove("active"));
+
+  document
+    .getElementById("week-" + week)
+    .classList.add("active");
+
+  button.classList.add("active");
+}
+
+
+renderAWeek();
+renderBWeek();
+
+</script>
+
+</body>
+</html>
