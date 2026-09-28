@@ -7,230 +7,123 @@
 
 <style>
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:#f4f6f8;
   color:#18202a;
 }
-
-.app{
-  max-width:900px;
-  margin:auto;
-  padding:18px;
-}
-
-h1{
-  margin:5px 0 18px;
-  font-size:27px;
-}
-
-.tabs{
-  display:flex;
-  gap:8px;
-  margin-bottom:20px;
-}
-
+.app{max-width:900px;margin:auto;padding:18px}
+h1{margin:5px 0 18px;font-size:27px}
+.tabs{display:flex;gap:8px;margin-bottom:20px}
 .tab{
-  flex:1;
-  border:0;
-  border-radius:12px;
-  padding:14px;
-  font-size:17px;
-  font-weight:800;
-  background:#e1e5ea;
-  cursor:pointer;
+  flex:1;border:0;border-radius:12px;padding:14px;
+  font-size:17px;font-weight:800;background:#e1e5ea;cursor:pointer;
 }
-
-.tab.active{
-  background:#1f2937;
-  color:white;
-}
-
+.tab.active{background:#1f2937;color:white}
 .week{display:none}
 .week.active{display:block}
-
-.section-title{
-  color:#6b7280;
-  margin-bottom:10px;
-  font-size:14px;
-}
-
-.columns{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
+.section-title{color:#6b7280;margin-bottom:10px;font-size:14px}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .box{
-  background:white;
-  border-radius:16px;
-  padding:14px;
-  min-height:320px;
+  background:white;border-radius:16px;padding:14px;min-height:320px;
   box-shadow:0 2px 10px rgba(0,0,0,.06);
 }
-
-.box-title{
-  font-size:19px;
-  font-weight:800;
-}
-
-.count{
-  font-size:14px;
-  font-weight:800;
-  color:#4b5563;
-  margin:3px 0 14px;
-}
-
+.box-title{font-size:19px;font-weight:800}
+.count{font-size:14px;font-weight:800;color:#4b5563;margin:3px 0 14px}
 .person{
-  width:100%;
-  border:0;
-  background:#f0f3f5;
-  border-radius:10px;
-  padding:12px 5px;
-  margin-bottom:8px;
-  font-size:17px;
-  font-weight:800;
-  cursor:pointer;
+  width:100%;border:0;background:#f0f3f5;border-radius:10px;
+  padding:12px 5px;margin-bottom:8px;font-size:17px;
+  font-weight:800;cursor:pointer;
 }
-
-.absent .person{
-  background:#fde3e3;
+.person small{
+  display:block;font-size:12px;font-weight:400;margin-top:5px;
 }
-
+.absent .person{background:#fde3e3}
 .action{
-  width:100%;
-  border:0;
-  border-radius:12px;
-  padding:15px;
-  font-size:17px;
-  font-weight:800;
-  cursor:pointer;
-  margin-top:16px;
+  width:100%;border:0;border-radius:12px;padding:15px;
+  font-size:17px;font-weight:800;cursor:pointer;margin-top:16px;
 }
-
-.primary{
-  background:#1f2937;
-  color:white;
-}
-
-.secondary{
-  background:#e5e7eb;
-  color:#18202a;
-}
-
-.plan-area{
-  margin-top:24px;
-}
-
-.plan-title{
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:12px;
-}
-
-.vehicle{
-  border-radius:15px;
-  padding:15px;
-  margin-bottom:11px;
-}
-
-.vehicle-title{
-  font-size:17px;
-  font-weight:900;
-  margin-bottom:10px;
-}
-
+.primary{background:#1f2937;color:white}
+.secondary{background:#e5e7eb;color:#18202a}
+.plan-area{margin-top:24px}
+.plan-title{font-size:22px;font-weight:900;margin-bottom:12px}
+.vehicle{border-radius:15px;padding:15px;margin-bottom:11px}
+.vehicle-title{font-size:17px;font-weight:900;margin-bottom:10px}
 .vehicle-row{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  padding:6px 0;
+  display:flex;justify-content:space-between;gap:12px;padding:6px 0;
   border-top:1px solid rgba(0,0,0,.08);
 }
-
-.vehicle-row:first-of-type{
-  border-top:0;
-}
-
-.role{
-  font-weight:600;
-}
-
-.number{
-  font-weight:900;
-}
-
+.vehicle-row:first-of-type{border-top:0}
+.role{font-weight:600}
+.number{font-weight:900}
 .green{background:#dfeee4}
 .blue{background:#dfeaf5}
 .red{background:#efdfdf}
 .gray{background:#e4e6e8}
-
-.reserve{
-  background:white;
-  border:2px solid #e5e7eb;
-}
-
+.reserve{background:white;border:2px solid #e5e7eb}
 .warning{
-  background:#fff3cd;
-  border:1px solid #ffe08a;
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:12px;
-  font-size:14px;
-  font-weight:700;
+  background:#fff3cd;border:1px solid #ffe08a;border-radius:12px;
+  padding:12px;margin-bottom:12px;font-size:14px;font-weight:700;
 }
-
 .summary{
-  background:white;
-  border-radius:12px;
-  padding:12px 14px;
-  font-weight:800;
-  margin-bottom:12px;
+  background:white;border-radius:12px;padding:12px 14px;
+  font-weight:800;margin-bottom:12px;
 }
-
-.hint{
-  text-align:center;
-  color:#7b8490;
-  font-size:12px;
-  margin-top:12px;
-}
-
-.b-card{
-  background:white;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:12px;
-}
-
-.day{
-  font-weight:900;
-  font-size:17px;
-  margin-bottom:10px;
-}
-
+.hint{text-align:center;color:#7b8490;font-size:12px;margin-top:12px}
+.b-card{background:white;border-radius:14px;padding:16px;margin-bottom:12px}
+.day{font-weight:900;font-size:17px;margin-bottom:10px}
 .shift{
-  display:grid;
-  grid-template-columns:110px 1fr;
-  gap:10px;
-  align-items:center;
-  margin-bottom:8px;
+  display:grid;grid-template-columns:110px 1fr;gap:10px;
+  align-items:center;margin-bottom:8px;
 }
-
-.shift span{
-  font-size:13px;
-  font-weight:700;
-}
-
+.shift span{font-size:13px;font-weight:700}
 select{
-  width:100%;
-  padding:10px;
-  border-radius:9px;
-  border:1px solid #d1d5db;
-  background:white;
-  font-size:15px;
+  width:100%;padding:10px;border-radius:9px;
+  border:1px solid #d1d5db;background:white;font-size:15px;
 }
+.controls,.editor,.guest-editor{
+  background:white;padding:16px;border-radius:14px;margin:12px 0;
+}
+.controls{display:flex;flex-wrap:wrap;gap:12px}
+label{display:block;font-weight:600}
+input,button,select{font:inherit}
+input[type=date],input[type=time],
+input[type=text],input[type=datetime-local]{
+  max-width:100%;padding:10px;border:1px solid #d1d5db;
+  border-radius:9px;min-height:44px;
+}
+button{min-height:44px}
+summary{font-weight:800;cursor:pointer;padding:8px 0}
+.day-edit{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  border-top:1px solid #ddd;padding:12px 0;
+}
+.day-edit strong{grid-column:1/-1}
+.time-pair{display:flex;gap:8px;min-width:0}
+.time-pair input{width:100%;min-width:0}
+.guest-row{
+  display:flex;justify-content:space-between;gap:12px;
+  align-items:center;margin-top:8px;
+}
+.week-overview{margin-top:24px}
+.week-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+}
+.overview-day{background:white;border-radius:14px;padding:14px;min-width:0}
+.overview-day.current{outline:2px solid #334155}
+.overview-day h3{margin:0 0 10px;font-size:18px}
+.overview-person{
+  display:flex;justify-content:space-between;gap:10px;padding:7px 0;
+  border-bottom:1px solid #edf0f2;font-size:14px;
+}
+.overview-person span{white-space:pre-line;text-align:right}
+.overview-person.partial{color:#805500}
+.overview-absent{font-size:13px;color:#8a3030;line-height:1.6}
+.checks{display:flex;flex-wrap:wrap;gap:16px;margin:12px 0}
+.note{font-size:13px;color:#4b5563;line-height:1.5}
+#editPerson{margin:10px 0}
+[hidden]{display:none!important}
 
 @media(max-width:600px){
   .app{padding:12px}
@@ -238,184 +131,723 @@ select{
   .columns{gap:8px}
   .box{padding:10px}
   .person{padding:11px 3px}
+  .week-grid{grid-template-columns:1fr}
+}
+@media(max-width:420px){
+  .day-edit{grid-template-columns:1fr}
+  .shift{grid-template-columns:1fr}
+  .guest-row{flex-wrap:wrap}
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <h1>Arbeitsplanung</h1>
+
+<p id="storageNotice" class="warning" hidden>
+  Speichern oder Laden ist in diesem Browser nicht möglich.
+  Änderungen bleiben möglicherweise nur bis zum Schließen der Seite erhalten.
+</p>
 
 <div class="tabs">
   <button class="tab active" onclick="showWeek('a',this)">A-Woche</button>
   <button class="tab" onclick="showWeek('b',this)">B-Woche</button>
 </div>
 
-<!-- A-WOCHE -->
-
 <section id="week-a" class="week active">
 
-<div class="section-title">
-Beamte durch Antippen zwischen Anwesend und Abwesend verschieben
-</div>
+  <div class="section-title">
+    Mitarbeiter antippen, um zwischen Anwesend und Abwesend zu wechseln.
+    Der Klick gilt für den ganzen ausgewählten Tag.
+    Stundenweise Ausnahmen lassen sich unter den Feldern einstellen.
+  </div>
 
-<div class="columns">
+  <div class="controls">
+    <label>
+      Planungsdatum<br>
+      <input id="planDate" type="date" required>
+    </label>
+    <label>
+      Planungsuhrzeit<br>
+      <input id="planTime" type="time" required value="08:00">
+    </label>
+  </div>
 
-<div class="box">
-  <div class="box-title">Anwesend</div>
-  <div class="count" id="presentCount"></div>
-  <div id="present"></div>
-</div>
+  <p id="weekContext" class="note"></p>
+  <p id="planContext" class="summary"></p>
 
-<div class="box absent">
-  <div class="box-title">Abwesend</div>
-  <div class="count" id="absentCount"></div>
-  <div id="absent"></div>
-</div>
+  <div class="columns">
+    <div class="box">
+      <div class="box-title">Anwesend</div>
+      <div class="count" id="presentCount"></div>
+      <div id="present"></div>
+    </div>
 
-</div>
+    <div class="box absent">
+      <div class="box-title">Abwesend</div>
+      <div class="count" id="absentCount"></div>
+      <div id="absent"></div>
+    </div>
+  </div>
 
-<button class="action primary" onclick="createPlan()">
-Besatzung erstellen
-</button>
+  <details id="dayEditor" class="editor">
+    <summary>Ausnahme: nur stundenweise anwesend / abwesend</summary>
 
-<div id="planArea" class="plan-area"></div>
+    <label for="editPerson">Mitarbeiter / Gast</label>
+    <select id="editPerson"></select>
 
-<div class="hint">
-Anwesenheit wird auf diesem Gerät gespeichert.
-</div>
+    <label>
+      <input id="basePresent" type="checkbox">
+      Wochenstandard: anwesend
+    </label>
 
-<button class="action secondary" onclick="resetAWeek()">
-A-Woche zurücksetzen
-</button>
+    <p class="note">
+      „Wochenstandard“ übernimmt diese Einstellung.
+      Tagesregeln überschreiben sie.
+      „Bis 14:00“ bedeutet ab 14:00 abwesend;
+      „ab 07:00“ bedeutet ab 07:00 anwesend.
+      Über Mitternacht auf zwei Tage verteilen.
+      Änderungen werden sofort gespeichert.
+    </p>
 
+    <div id="dayRows"></div>
+  </details>
+
+  <details class="guest-editor">
+    <summary>Gäste hinzufügen / entfernen</summary>
+
+    <p class="note">
+      Gäste gelten nur für die ausgewählte A-Kalenderwoche.
+      Ohne Zusatzqualifikation werden sie als Trooper oder Reserve eingeplant.
+      Qualifikationen nur auswählen, wenn sie bestätigt sind.
+      Die Führungsreihenfolge bleibt unverändert.
+    </p>
+
+    <form id="guestForm">
+      <label for="guestCode">Zahlencode</label>
+      <input
+        id="guestCode"
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]{1,10}"
+        maxlength="10"
+        required
+        placeholder="z. B. 450"
+      >
+
+      <div class="controls">
+        <label>
+          Beginn (einschließlich)<br>
+          <input id="guestStart" type="datetime-local" required>
+        </label>
+        <label>
+          Ende (ab dann abwesend)<br>
+          <input id="guestEnd" type="datetime-local" required>
+        </label>
+      </div>
+
+      <label for="guestReplacement">Ersatz für</label>
+      <select id="guestReplacement">
+        <option value="">Zusätzliche Unterstützung</option>
+      </select>
+
+      <p class="note">
+        Während der Anwesenheit des Gastes wird der gewählte Kernmitarbeiter
+        nicht eingeplant. Qualifikationen werden nicht automatisch übernommen.
+        Für einen ganzen Tag: Beginn 00:00, Ende am Folgetag 00:00.
+        Zeiträume müssen innerhalb der ausgewählten Kalenderwoche liegen;
+        weitere Wochen separat eintragen.
+        Tagesabweichungen des Gastes sind anschließend editierbar.
+      </p>
+
+      <div class="checks">
+        <label><input type="checkbox" name="guestRole" value="OT"> OT</label>
+        <label><input type="checkbox" name="guestRole" value="PS"> PS</label>
+        <label><input type="checkbox" name="guestRole" value="San"> San</label>
+      </div>
+
+      <button class="action secondary" type="submit">Gast hinzufügen</button>
+    </form>
+
+    <div id="guestList"></div>
+  </details>
+
+  <button class="action primary" onclick="createPlan()">
+    Besatzung erstellen
+  </button>
+
+  <section class="week-overview" aria-labelledby="overviewHeading">
+    <h2 id="overviewHeading">Wochenübersicht · Anwesenheit</h2>
+    <p class="note">
+      Alle sieben Tage der ausgewählten Woche.
+      Stundenangaben zeigen die tatsächliche Verfügbarkeit einschließlich
+      Vertretungen. „Tagesbesatzung anzeigen“ öffnet die Fahrzeugplanung
+      für diesen Tag zur oben gewählten Uhrzeit.
+    </p>
+    <div id="weekOverview" class="week-grid"></div>
+  </section>
+
+  <div id="planArea" class="plan-area"></div>
+
+  <div class="hint">
+    Anwesenheit, Tagesabweichungen und Gäste werden nur in diesem Browser
+    gespeichert – keine Synchronisierung mit anderen Geräten.
+    Der Plan aktualisiert sich bei jeder Änderung für Datum und Uhrzeit oben.
+  </div>
+
+  <button class="action secondary" onclick="resetAWeek()">
+    A-Woche zurücksetzen
+  </button>
 </section>
-
-
-<!-- B-WOCHE -->
 
 <section id="week-b" class="week">
+  <div class="section-title">
+    B-Woche · täglich 08:00–20:00 und 20:00–08:00
+    · wiederkehrende Vorlage wie bisher
+  </div>
 
-<div class="section-title">
-B-Woche · täglich 08:00–20:00 und 20:00–08:00
-</div>
+  <div id="bWeek"></div>
 
-<div id="bWeek"></div>
-
-<button class="action secondary" onclick="resetBWeek()">
-B-Woche zurücksetzen
-</button>
-
+  <button class="action secondary" onclick="resetBWeek()">
+    B-Woche zurücksetzen
+  </button>
 </section>
 
 </div>
 
-
 <script>
-
 const employees=[
-"310","320","311","314","315","316","317",
-"318","319","322","911","922","924"
+  "310","320","311","314","315","316","317",
+  "318","319","322","911","922","924"
 ];
 
-const qualifications={
-"310":["Führung","PS"],
-"320":["Führung","OT","OAE"],
-"311":["Führung","Taktiker","PS","HIT"],
-"314":["Führung","San","ULS"],
-"315":["OT","Taktiker"],
-"316":["PS","OAE","ST"],
-"317":["OT","OAE"],
-"318":["PS"],
-"319":["OAE","OT"],
-"322":["San"],
-"911":["FNG"],
-"922":["FNG"],
-"924":["FNG"]
-};
+const $=id=>document.getElementById(id);
 
-let present=JSON.parse(localStorage.getItem("aWeekPresent"));
+function readStored(key,fallback){
+  try{
+    const value=localStorage.getItem(key);
+    return value===null?fallback:JSON.parse(value);
+  }catch{
+    $("storageNotice").hidden=false;
+    return fallback;
+  }
+}
 
-if(!present){
-  present=[...employees];
+function writeStored(key,value){
+  try{
+    localStorage.setItem(key,JSON.stringify(value));
+  }catch{
+    $("storageNotice").hidden=false;
+  }
+}
+
+const STORAGE="arbeitsplanung-v2";
+let state=readStored(STORAGE,{weeks:{}});
+
+if(
+  !state ||
+  typeof state!=="object" ||
+  !state.weeks ||
+  typeof state.weeks!=="object" ||
+  Array.isArray(state.weeks)
+){
+  state={weeks:{}};
+}
+
+const dayNames=[
+  "Montag","Dienstag","Mittwoch","Donnerstag",
+  "Freitag","Samstag","Sonntag"
+];
+
+function dateText(d){
+  return d.getFullYear()+"-"+
+    String(d.getMonth()+1).padStart(2,"0")+"-"+
+    String(d.getDate()).padStart(2,"0");
+}
+
+function dateObject(s){
+  return new Date(s+"T12:00:00");
+}
+
+function mondayOf(s){
+  const d=dateObject(s);
+  d.setDate(d.getDate()-(d.getDay()+6)%7);
+  return dateText(d);
+}
+
+function datesOfWeek(s){
+  const d=dateObject(mondayOf(s));
+  return dayNames.map((_,i)=>{
+    const x=new Date(d);
+    x.setDate(d.getDate()+i);
+    return dateText(x);
+  });
+}
+
+function formatDate(s){
+  return dateObject(s).toLocaleDateString("de-DE");
+}
+
+function weekData(){
+  const key=mondayOf($("planDate").value);
+
+  if(!state.weeks[key]){
+    const legacy=readStored("aWeekPresent",null);
+
+    // Alte Anwesenheit einmalig in die erste geöffnete Woche übernehmen.
+    const base=!state.migrated && Array.isArray(legacy)
+      ?employees.filter(id=>legacy.includes(id))
+      :[...employees];
+
+    state.weeks[key]={base,guests:[],overrides:{}};
+    state.migrated=true;
+    writeStored(STORAGE,state);
+  }
+
+  return state.weeks[key];
+}
+
+function allPeople(){
+  return [...employees,...weekData().guests.map(g=>g.id)];
+}
+
+function guestCandidates(role){
+  return weekData().guests
+    .filter(g=>g.roles.includes(role))
+    .map(g=>g.id);
+}
+
+function ruleFor(id,date){
+  return weekData().overrides[date]?.[id] ||
+    {mode:"normal",from:"07:00",to:"14:00"};
+}
+
+function available(id,date,time){
+  const rule=ruleFor(id,date);
+
+  if(rule.mode==="full") return true;
+  if(rule.mode==="off") return false;
+  if(rule.mode==="from") return time>=rule.from;
+  if(rule.mode==="until") return time<rule.to;
+  if(rule.mode==="range"){
+    return time>=rule.from && time<rule.to;
+  }
+
+  return weekData().base.includes(id);
+}
+
+let present=[];
+
+function peopleAt(date,time){
+  const availableGuests=weekData().guests.filter(
+    g=>available(g.id,date,time)
+  );
+
+  const replaced=new Set(
+    availableGuests.map(g=>g.replacement).filter(Boolean)
+  );
+
+  return allPeople().filter(
+    id=>available(id,date,time) && !replaced.has(id)
+  );
+}
+
+function renderWeekOverview(){
+  const container=$("weekOverview");
+  container.replaceChildren();
+
+  const selected=$("planDate").value;
+  const minute=t=>Number(t.slice(0,2))*60+Number(t.slice(3,5));
+  const clock=n=>
+    String(Math.floor(n/60)).padStart(2,"0")+":"+
+    String(n%60).padStart(2,"0");
+
+  datesOfWeek(selected).forEach((date,day)=>{
+    const boundaries=new Set([0,1440]);
+
+    for(const id of allPeople()){
+      const rule=ruleFor(id,date);
+
+      if(["from","range"].includes(rule.mode)){
+        boundaries.add(minute(rule.from));
+      }
+      if(["until","range"].includes(rule.mode)){
+        boundaries.add(minute(rule.to));
+      }
+    }
+
+    const times=[...boundaries].sort((a,b)=>a-b);
+    const intervals=new Map(allPeople().map(id=>[id,[]]));
+
+    for(let i=0;i<times.length-1;i++){
+      for(const id of peopleAt(date,clock(times[i]))){
+        const list=intervals.get(id);
+        const last=list[list.length-1];
+
+        if(last && last[1]===times[i]){
+          last[1]=times[i+1];
+        }else{
+          list.push([times[i],times[i+1]]);
+        }
+      }
+    }
+
+    const card=document.createElement("article");
+    card.className="overview-day"+(selected===date?" current":"");
+    card.dataset.date=date;
+
+    const title=document.createElement("h3");
+    title.textContent=dayNames[day]+" · "+formatDate(date);
+    card.appendChild(title);
+
+    const absent=[];
+
+    for(const [id,slots] of intervals){
+      const guest=weekData().guests.find(g=>g.id===id);
+
+      if(!slots.length){
+        absent.push(id+(guest?" (Gast)":""));
+        continue;
+      }
+
+      const full=slots.length===1 &&
+        slots[0][0]===0 &&
+        slots[0][1]===1440;
+
+      const row=document.createElement("div");
+      row.className="overview-person"+(full?"":" partial");
+
+      const name=document.createElement("strong");
+      name.textContent=id+(guest?" · Gast":"");
+
+      const time=document.createElement("span");
+      time.textContent=(
+        full
+          ?"Ganztägig"
+          :slots.map(([a,b])=>clock(a)+"–"+clock(b)).join("\n")
+      )+(
+        guest?.replacement
+          ?"\nErsatz für "+guest.replacement
+          :""
+      );
+
+      row.append(name,time);
+      card.appendChild(row);
+    }
+
+    const off=document.createElement("p");
+    off.className="overview-absent";
+    off.textContent="Ganztägig abwesend: "+
+      (absent.join(", ")||"niemand");
+    card.appendChild(off);
+
+    const button=document.createElement("button");
+    button.className="action secondary";
+    button.textContent="Tagesbesatzung anzeigen";
+    button.onclick=()=>{
+      $("planDate").value=date;
+      guestDefaults();
+      refresh();
+      $("planArea").scrollIntoView({behavior:"smooth"});
+    };
+
+    card.appendChild(button);
+    container.appendChild(card);
+  });
+}
+
+function save(){
+  writeStored(STORAGE,state);
+}
+
+function refresh(){
+  const date=$("planDate").value;
+  const time=$("planTime").value;
+
+  present=peopleAt(date,time);
+
+  renderAWeek();
+  renderGuests();
+  renderEditor();
+  renderWeekOverview();
+  createPlan();
+
+  $("planContext").textContent=
+    dayNames[(dateObject(date).getDay()+6)%7]+", "+
+    formatDate(date)+" um "+time+" Uhr";
+
+  $("weekContext").textContent=
+    "Kalenderwoche "+formatDate(mondayOf(date))+"–"+
+    formatDate(datesOfWeek(date)[6]);
+}
+
+function ruleLabel(rule,id){
+  const labels={
+    normal:"Wochenstandard: "+
+      (weekData().base.includes(id)?"anwesend":"abwesend"),
+    full:"Ganztägig anwesend",
+    off:"Ganztägig abwesend",
+    from:"Ab "+rule.from,
+    until:"Bis "+rule.to,
+    range:rule.from+"–"+rule.to
+  };
+
+  return labels[rule.mode];
 }
 
 function renderAWeek(){
+  $("present").replaceChildren();
+  $("absent").replaceChildren();
 
-  const p=document.getElementById("present");
-  const a=document.getElementById("absent");
+  const ids=allPeople();
 
-  p.innerHTML="";
-  a.innerHTML="";
+  for(const id of ids){
+    const isPresent=present.includes(id);
+    const button=document.createElement("button");
 
-  const absent=employees.filter(x=>!present.includes(x));
+    button.className="person";
+    button.type="button";
+    button.textContent=id+(employees.includes(id)?"":" · Gast");
+    button.title=isPresent
+      ?"Für diesen Tag abwesend setzen"
+      :"Für diesen Tag anwesend setzen";
 
-  present.forEach(id=>{
-    const b=document.createElement("button");
-    b.className="person";
-    b.textContent=id;
+    const small=document.createElement("small");
+    const replacement=weekData().guests.find(
+      g=>g.replacement===id && present.includes(g.id)
+    );
 
-    b.onclick=()=>{
-      present=present.filter(x=>x!==id);
-      saveAttendance();
+    small.textContent=replacement
+      ?"Vertreten durch "+replacement.id
+      :ruleLabel(ruleFor(id,$("planDate").value),id);
+
+    button.appendChild(small);
+
+    button.onclick=()=>{
+      const date=$("planDate").value;
+      const w=weekData();
+
+      w.overrides[date] ||= {};
+
+      // Der Klick ersetzt eine vorhandene Stundenregel dieses Tages.
+      w.overrides[date][id]={
+        mode:isPresent?"off":"full",
+        from:"07:00",
+        to:"14:00"
+      };
+
+      if(!isPresent){
+        // Bei Rückkehr des Kernmitarbeiters aktiven Ersatz abmelden.
+        for(const guest of w.guests){
+          if(
+            guest.replacement===id &&
+            present.includes(guest.id)
+          ){
+            w.overrides[date][guest.id]={
+              mode:"off",
+              from:"07:00",
+              to:"14:00"
+            };
+          }
+        }
+      }
+
+      save();
+      refresh();
     };
 
-    p.appendChild(b);
-  });
+    $(isPresent?"present":"absent").appendChild(button);
+  }
 
-  absent.forEach(id=>{
-    const b=document.createElement("button");
-    b.className="person";
-    b.textContent=id;
+  $("presentCount").textContent="Gesamt: "+present.length;
+  $("absentCount").textContent="Gesamt: "+(ids.length-present.length);
+}
 
-    b.onclick=()=>{
-      present.push(id);
+function renderEditor(){
+  const selected=$("editPerson").value;
+  $("editPerson").replaceChildren();
 
-      present.sort(
-        (x,y)=>employees.indexOf(x)-employees.indexOf(y)
-      );
+  for(const id of allPeople()){
+    const option=document.createElement("option");
+    option.value=id;
+    option.textContent=id+(employees.includes(id)?"":" · Gast");
+    $("editPerson").appendChild(option);
+  }
 
-      saveAttendance();
+  if(allPeople().includes(selected)){
+    $("editPerson").value=selected;
+  }
+
+  const id=$("editPerson").value;
+  $("basePresent").checked=weekData().base.includes(id);
+  $("dayRows").replaceChildren();
+
+  datesOfWeek($("planDate").value).forEach((date,i)=>{
+    const rule=ruleFor(id,date);
+    const row=document.createElement("div");
+    row.className="day-edit";
+
+    const label=document.createElement("strong");
+    label.textContent=dayNames[i]+" · "+formatDate(date);
+
+    const select=document.createElement("select");
+    select.setAttribute("aria-label",dayNames[i]+" Anwesenheit");
+
+    const options=[
+      ["normal","Wochenstandard"],
+      ["full","Ganztägig anwesend"],
+      ["off","Ganztägig abwesend"],
+      ["until","Anwesend bis …"],
+      ["from","Anwesend ab …"],
+      ["range","Anwesend von … bis …"]
+    ];
+
+    for(const [value,text] of options){
+      const option=document.createElement("option");
+      option.value=value;
+      option.textContent=text;
+      select.appendChild(option);
+    }
+
+    select.value=rule.mode;
+
+    const times=document.createElement("div");
+    times.className="time-pair";
+
+    const from=document.createElement("input");
+    const to=document.createElement("input");
+
+    from.type=to.type="time";
+    from.value=rule.from||"07:00";
+    to.value=rule.to||"14:00";
+
+    from.setAttribute("aria-label",dayNames[i]+" anwesend ab");
+    to.setAttribute("aria-label",dayNames[i]+" anwesend bis");
+
+    function visibility(){
+      from.hidden=!["from","range"].includes(select.value);
+      to.hidden=!["until","range"].includes(select.value);
+    }
+
+    function commit(){
+      to.setCustomValidity("");
+
+      if(
+        (!from.hidden&&!from.value) ||
+        (!to.hidden&&!to.value)
+      ){
+        return;
+      }
+
+      if(select.value==="range" && from.value>=to.value){
+        to.setCustomValidity(
+          "Die Endzeit muss nach der Anfangszeit liegen. "+
+          "Übernacht-Zeiten auf zwei Tage verteilen."
+        );
+        to.reportValidity();
+        return;
+      }
+
+      const w=weekData();
+      w.overrides[date] ||= {};
+
+      if(select.value==="normal"){
+        delete w.overrides[date][id];
+      }else{
+        w.overrides[date][id]={
+          mode:select.value,
+          from:from.value,
+          to:to.value
+        };
+      }
+
+      save();
+      refresh();
+    }
+
+    select.onchange=()=>{
+      visibility();
+      commit();
     };
 
-    a.appendChild(b);
+    from.onchange=to.onchange=commit;
+
+    visibility();
+    times.append(from,to);
+    row.append(label,select,times);
+    $("dayRows").appendChild(row);
   });
-
-  document.getElementById("presentCount").textContent=
-    "Gesamt: "+present.length;
-
-  document.getElementById("absentCount").textContent=
-    "Gesamt: "+absent.length;
 }
 
+function renderGuests(){
+  $("guestList").replaceChildren();
 
-function saveAttendance(){
+  for(const guest of weekData().guests){
+    const row=document.createElement("div");
+    row.className="guest-row";
 
-  localStorage.setItem(
-    "aWeekPresent",
-    JSON.stringify(present)
-  );
+    const name=document.createElement("span");
+    name.textContent=
+      guest.id+" · "+
+      (guest.roles.join(", ")||"Trooper / Reserve")+
+      (guest.replacement?" · Ersatz für "+guest.replacement:"");
 
-  localStorage.removeItem("aWeekPlan");
+    const edit=document.createElement("button");
+    edit.type="button";
+    edit.textContent="Zeiten ändern";
+    edit.onclick=()=>{
+      $("editPerson").value=guest.id;
+      $("dayEditor").open=true;
+      renderEditor();
+      $("dayEditor").scrollIntoView({behavior:"smooth"});
+    };
 
-  document.getElementById("planArea").innerHTML="";
+    const remove=document.createElement("button");
+    remove.type="button";
+    remove.textContent="Entfernen";
+    remove.setAttribute("aria-label","Gast "+guest.id+" entfernen");
 
-  renderAWeek();
+    remove.onclick=()=>{
+      const w=weekData();
+      w.guests=w.guests.filter(g=>g.id!==guest.id);
+      w.base=w.base.filter(id=>id!==guest.id);
+      Object.values(w.overrides).forEach(r=>delete r[guest.id]);
+      save();
+      refresh();
+    };
+
+    row.append(name,edit,remove);
+    $("guestList").appendChild(row);
+  }
 }
 
+function resetAWeek(){
+  if(!confirm(
+    "Nur die ausgewählte Kalenderwoche zurücksetzen? "+
+    "Tagesabweichungen und Gäste dieser Woche werden entfernt."
+  )){
+    return;
+  }
+
+  state.weeks[mondayOf($("planDate").value)]={
+    base:[...employees],
+    guests:[],
+    overrides:{}
+  };
+
+  save();
+  refresh();
+}
 
 function firstAvailable(candidates,used){
-
   return candidates.find(
     id=>present.includes(id) && !used.has(id)
   ) || null;
 }
 
-
 function createPlan(){
-
   const used=new Set();
   const warnings=[];
 
@@ -428,772 +860,455 @@ function createPlan(){
   let trooper1=null;
   let trooper2=null;
 
+  // Dieselbe Priorität gilt für GF und TF.
+  const leadershipPriority=["310","320","311","314"];
 
-  /*
-    FÜHRUNGSLOGIK
-
-    Priorität:
-    310 > 320 > 311 > 314
-
-    Dieselbe Reihenfolge gilt für GF und TF.
-    Wer bereits GF ist, wird beim TF übersprungen.
-  */
-
-  const leadershipPriority=[
-    "310",
-    "320",
-    "311",
-    "314"
-  ];
-
-
-  // GF / Führung
-  leader=firstAvailable(
-    leadershipPriority,
-    used
-  );
+  leader=firstAvailable(leadershipPriority,used);
 
   if(leader){
     used.add(leader);
   }else{
-    warnings.push(
-      "GF / Führung kann nicht besetzt werden."
-    );
+    warnings.push("GF / Führung kann nicht besetzt werden.");
   }
 
-
-  // TF / Stellvertreter
-  deputy=firstAvailable(
-    leadershipPriority,
-    used
-  );
+  deputy=firstAvailable(leadershipPriority,used);
 
   if(deputy){
     used.add(deputy);
   }else{
+    warnings.push("TF / Stellvertreter kann nicht besetzt werden.");
+  }
+
+  // Reguläre OT-Kandidaten wie bisher: 315 und 317.
+  const otCandidates=["315","317",...guestCandidates("OT")];
+
+  ot1=firstAvailable(otCandidates,used);
+  if(ot1) used.add(ot1);
+
+  ot2=firstAvailable(otCandidates,used);
+  if(ot2) used.add(ot2);
+
+  const missingOT=Number(!ot1)+Number(!ot2);
+
+  if(missingOT){
     warnings.push(
-      "TF / Stellvertreter kann nicht besetzt werden."
+      missingOT===1
+        ?"1 OT kann nicht besetzt werden."
+        :"2 OT können nicht besetzt werden."
     );
   }
-
-
-  /*
-    OT
-
-    Aktuell regulär verfügbar:
-    315 und 317
-
-    319 und 911 werden erst ab Frühjahr 2027
-    für OT berücksichtigt.
-  */
-
-  const otCandidates=[
-    "315",
-    "317"
-  ];
-
-
-  ot1=firstAvailable(
-    otCandidates,
-    used
-  );
-
-  if(ot1){
-    used.add(ot1);
-  }
-
-
-  ot2=firstAvailable(
-    otCandidates,
-    used
-  );
-
-  if(ot2){
-    used.add(ot2);
-  }
-
-
-  if(!ot1 || !ot2){
-    warnings.push(
-      "Zwei OT können aktuell nicht besetzt werden."
-    );
-  }
-
-
-  /*
-    PS
-  */
 
   const psCandidates=[
-    "316",
-    "318",
-    "311",
-    "310"
+    "316","318","311","310",...guestCandidates("PS")
   ];
 
-  ps=firstAvailable(
-    psCandidates,
-    used
-  );
+  ps=firstAvailable(psCandidates,used);
 
   if(ps){
     used.add(ps);
   }else{
-    warnings.push(
-      "PS kann nicht besetzt werden."
-    );
+    warnings.push("PS kann nicht besetzt werden.");
   }
 
+  const sanCandidates=["322","314",...guestCandidates("San")];
 
-  /*
-    SAN
-  */
-
-  const sanCandidates=[
-    "322",
-    "314"
-  ];
-
-  san=firstAvailable(
-    sanCandidates,
-    used
-  );
+  san=firstAvailable(sanCandidates,used);
 
   if(san){
     used.add(san);
   }else{
-    warnings.push(
-      "San kann nicht besetzt werden."
-    );
+    warnings.push("San kann nicht besetzt werden.");
   }
 
-
-  /*
-    TROOPER
-  */
-
-  let remaining=
-    present.filter(
-      id=>!used.has(id)
-    );
-
+  const remaining=present.filter(id=>!used.has(id));
 
   if(remaining.length){
-
     trooper1=remaining.shift();
-
     used.add(trooper1);
   }
 
-
   if(remaining.length){
-
     trooper2=remaining.shift();
-
     used.add(trooper2);
   }
 
-
   if(!trooper1 || !trooper2){
-
     warnings.push(
       "Zwei Trooper können nicht vollständig besetzt werden."
     );
   }
 
+  const reserve=present.filter(id=>!used.has(id));
 
-  /*
-    RESERVE
-  */
-
-  const reserve=
-    present.filter(
-      id=>!used.has(id)
-    );
-
-
-  const plan={
-    leader,
-    deputy,
-    ot1,
-    ot2,
-    ps,
-    san,
-    trooper1,
-    trooper2,
-    reserve,
-    warnings
-  };
-
-
-  localStorage.setItem(
-    "aWeekPlan",
-    JSON.stringify(plan)
-  );
-
-
-  renderPlan(plan);
+  renderPlan({
+    leader,deputy,ot1,ot2,ps,san,
+    trooper1,trooper2,reserve,warnings
+  });
 }
 
-
 function vehicle(title,className,roles){
-
   let html=`
-  <div class="vehicle ${className}">
-    <div class="vehicle-title">${title}</div>
+    <div class="vehicle ${className}">
+      <div class="vehicle-title">${title}</div>
   `;
 
   roles.forEach(r=>{
-
     html+=`
-    <div class="vehicle-row">
-      <span class="role">${r[0]}</span>
-      <span class="number">${r[1] || "—"}</span>
-    </div>
+      <div class="vehicle-row">
+        <span class="role">${r[0]}</span>
+        <span class="number">${r[1] || "—"}</span>
+      </div>
     `;
   });
 
   html+="</div>";
-
   return html;
 }
 
-
 function buildReserveGroups(reserve){
-
-  if(reserve.length===0){
-    return [];
-  }
-
-  if(reserve.length===1){
-    return [[reserve[0]]];
-  }
+  if(reserve.length===0) return [];
+  if(reserve.length===1) return [[reserve[0]]];
 
   const groups=[];
-  let list=[...reserve];
-
+  const list=[...reserve];
 
   while(list.length>0){
-
     if(list.length===5){
-
-      groups.push(
-        list.splice(0,2)
-      );
-
-      groups.push(
-        list.splice(0,3)
-      );
-
+      groups.push(list.splice(0,2));
+      groups.push(list.splice(0,3));
       break;
     }
-
 
     if(list.length===6){
-
-      groups.push(
-        list.splice(0,3)
-      );
-
-      groups.push(
-        list.splice(0,3)
-      );
-
+      groups.push(list.splice(0,3));
+      groups.push(list.splice(0,3));
       break;
     }
-
 
     if(list.length<=4){
-
-      groups.push(
-        list.splice(0,list.length)
-      );
-
+      groups.push(list.splice(0,list.length));
       break;
     }
 
-
-    groups.push(
-      list.splice(0,4)
-    );
+    groups.push(list.splice(0,4));
   }
-
 
   return groups;
 }
 
-
 function renderPlan(plan){
-
-  const area=
-    document.getElementById("planArea");
-
+  const area=$("planArea");
 
   let html=`
     <div class="plan-title">
-      Kfz-Besatzung
+      Kfz-Besatzung · ${formatDate($("planDate").value)}
+      · ${$("planTime").value} Uhr
     </div>
   `;
 
-
   if(plan.warnings.length){
-
     html+=`
-    <div class="warning">
-      ${plan.warnings.join("<br>")}
-    </div>
+      <div class="warning">
+        ${plan.warnings.join("<br>")}
+      </div>
     `;
   }
 
+  const coreCount=[
+    plan.leader,plan.deputy,plan.ot1,plan.ot2,
+    plan.ps,plan.san,plan.trooper1,plan.trooper2
+  ].filter(Boolean).length;
 
   html+=`
-  <div class="summary">
-    Kernbesatzung:
-    ${
-      [
-        plan.leader,
-        plan.deputy,
-        plan.ot1,
-        plan.ot2,
-        plan.ps,
-        plan.san,
-        plan.trooper1,
-        plan.trooper2
-      ].filter(Boolean).length
-    } / 8
-    · Reserve: ${plan.reserve.length}
-    · Gesamt: ${present.length}
-  </div>
+    <div class="summary">
+      Kernbesatzung: ${coreCount} / 8
+      · Reserve: ${plan.reserve.length}
+      · Gesamt: ${present.length}
+    </div>
   `;
 
+  html+=vehicle("Fahrzeug 1","green",[
+    ["GF / Führung",plan.leader],
+    ["Trooper 1",plan.trooper1]
+  ]);
 
-  html+=vehicle(
-    "Fahrzeug 1",
-    "green",
-    [
-      [
-        "GF / Führung",
-        plan.leader
-      ],
-      [
-        "Trooper 1",
-        plan.trooper1
-      ]
-    ]
-  );
+  html+=vehicle("Fahrzeug 2","blue",[
+    ["TF / Stellvertreter",plan.deputy],
+    ["OT 1",plan.ot1]
+  ]);
 
+  html+=vehicle("Fahrzeug 3","red",[
+    ["OT 2",plan.ot2],
+    ["PS",plan.ps]
+  ]);
 
-  html+=vehicle(
-    "Fahrzeug 2",
-    "blue",
-    [
-      [
-        "TF / Stellvertreter",
-        plan.deputy
-      ],
-      [
-        "OT 1",
-        plan.ot1
-      ]
-    ]
-  );
+  html+=vehicle("Fahrzeug 4","gray",[
+    ["San",plan.san],
+    ["Trooper 2",plan.trooper2]
+  ]);
 
+  const reserveGroups=buildReserveGroups(plan.reserve);
 
-  html+=vehicle(
-    "Fahrzeug 3",
-    "red",
-    [
-      [
-        "OT 2",
-        plan.ot2
-      ],
-      [
-        "PS",
-        plan.ps
-      ]
-    ]
-  );
-
-
-  html+=vehicle(
-    "Fahrzeug 4",
-    "gray",
-    [
-      [
-        "San",
-        plan.san
-      ],
-      [
-        "Trooper 2",
-        plan.trooper2
-      ]
-    ]
-  );
-
-
-  const reserveGroups=
-    buildReserveGroups(
-      plan.reserve
-    );
-
-
-  reserveGroups.forEach(
-    (group,index)=>{
-
-      html+=`
+  reserveGroups.forEach((group,index)=>{
+    html+=`
       <div class="vehicle reserve">
         <div class="vehicle-title">
           Reservefahrzeug ${index+1}
         </div>
-      `;
+    `;
 
-
-      group.forEach(id=>{
-
-        html+=`
+    group.forEach(id=>{
+      html+=`
         <div class="vehicle-row">
-          <span class="role">
-            Reserve
-          </span>
-
-          <span class="number">
-            ${id}
-          </span>
+          <span class="role">Reserve</span>
+          <span class="number">${id}</span>
         </div>
-        `;
-      });
+      `;
+    });
 
-
-      html+="</div>";
-    }
-  );
-
+    html+="</div>";
+  });
 
   if(plan.reserve.length===1){
-
     html+=`
-    <div class="warning">
-      Reserve enthält nur eine Person.
-      Ein Einzelfahrer ist nicht zulässig.
-    </div>
+      <div class="warning">
+        Reserve enthält nur eine Person.
+        Ein Einzelfahrer ist nicht zulässig.
+      </div>
     `;
   }
-
 
   area.innerHTML=html;
 }
 
-
-function resetAWeek(){
-
-  if(
-    !confirm(
-      "A-Woche wirklich zurücksetzen?"
-    )
-  ){
-    return;
-  }
-
-
-  present=[
-    ...employees
-  ];
-
-
-  localStorage.removeItem(
-    "aWeekPresent"
-  );
-
-  localStorage.removeItem(
-    "aWeekPlan"
-  );
-
-
-  document.getElementById(
-    "planArea"
-  ).innerHTML="";
-
-
-  renderAWeek();
-}
-
-
-
-/*
-  B-WOCHE
-*/
-
+// B-Woche: bestehende wiederkehrende Vorlage.
 const days=[
-  "Montag",
-  "Dienstag",
-  "Mittwoch",
-  "Donnerstag",
-  "Freitag",
-  "Samstag",
-  "Sonntag"
+  "Montag","Dienstag","Mittwoch","Donnerstag",
+  "Freitag","Samstag","Sonntag"
 ];
 
+let bPlan=readStored("bWeekPlan",{});
 
-let bPlan=
-  JSON.parse(
-    localStorage.getItem(
-      "bWeekPlan"
-    )
-  ) || {};
-
+if(!bPlan || typeof bPlan!=="object" || Array.isArray(bPlan)){
+  bPlan={};
+}
 
 function renderBWeek(){
-
-  const container=
-    document.getElementById(
-      "bWeek"
-    );
-
-
+  const container=$("bWeek");
   container.innerHTML="";
 
-
   days.forEach(day=>{
+    const card=document.createElement("div");
+    card.className="b-card";
 
-    const card=
-      document.createElement(
-        "div"
-      );
+    const title=document.createElement("div");
+    title.className="day";
+    title.textContent=day;
 
-    card.className=
-      "b-card";
+    card.appendChild(title);
+    card.appendChild(createShift(day,"day","08:00–20:00"));
+    card.appendChild(createShift(day,"night","20:00–08:00"));
 
-
-    const title=
-      document.createElement(
-        "div"
-      );
-
-    title.className=
-      "day";
-
-    title.textContent=
-      day;
-
-
-    card.appendChild(
-      title
-    );
-
-
-    card.appendChild(
-      createShift(
-        day,
-        "day",
-        "08:00–20:00"
-      )
-    );
-
-
-    card.appendChild(
-      createShift(
-        day,
-        "night",
-        "20:00–08:00"
-      )
-    );
-
-
-    container.appendChild(
-      card
-    );
+    container.appendChild(card);
   });
 }
 
+function createShift(day,type,label){
+  const row=document.createElement("div");
+  row.className="shift";
 
-function createShift(
-  day,
-  type,
-  label
-){
+  const name=document.createElement("span");
+  name.textContent=label;
 
-  const row=
-    document.createElement(
-      "div"
-    );
+  const select=document.createElement("select");
 
-  row.className=
-    "shift";
-
-
-  const name=
-    document.createElement(
-      "span"
-    );
-
-  name.textContent=
-    label;
-
-
-  const select=
-    document.createElement(
-      "select"
-    );
-
-
-  const empty=
-    document.createElement(
-      "option"
-    );
-
+  const empty=document.createElement("option");
   empty.value="";
+  empty.textContent="– auswählen –";
+  select.appendChild(empty);
 
-  empty.textContent=
-    "– auswählen –";
+  employees.forEach(employee=>{
+    const option=document.createElement("option");
+    option.value=employee;
+    option.textContent=employee;
+    select.appendChild(option);
+  });
 
-
-  select.appendChild(
-    empty
-  );
-
-
-  employees.forEach(
-    employee=>{
-
-      const option=
-        document.createElement(
-          "option"
-        );
-
-      option.value=
-        employee;
-
-      option.textContent=
-        employee;
-
-
-      select.appendChild(
-        option
-      );
-    }
-  );
-
-
-  const key=
-    day+"_"+type;
-
-
-  select.value=
-    bPlan[key] || "";
-
+  const key=day+"_"+type;
+  select.value=bPlan[key] || "";
 
   select.onchange=()=>{
-
-    bPlan[key]=
-      select.value;
-
-
-    localStorage.setItem(
-      "bWeekPlan",
-      JSON.stringify(
-        bPlan
-      )
-    );
+    bPlan[key]=select.value;
+    writeStored("bWeekPlan",bPlan);
   };
 
-
-  row.appendChild(
-    name
-  );
-
-  row.appendChild(
-    select
-  );
-
+  row.appendChild(name);
+  row.appendChild(select);
 
   return row;
 }
 
-
 function resetBWeek(){
-
-  if(
-    !confirm(
-      "B-Woche wirklich zurücksetzen?"
-    )
-  ){
-    return;
-  }
-
+  if(!confirm("B-Woche wirklich zurücksetzen?")) return;
 
   bPlan={};
-
-
-  localStorage.removeItem(
-    "bWeekPlan"
-  );
-
-
+  writeStored("bWeekPlan",bPlan);
   renderBWeek();
 }
 
-
-function showWeek(
-  week,
-  button
-){
-
-  document
-    .querySelectorAll(
-      ".week"
-    )
-    .forEach(
-      x=>
-        x.classList.remove(
-          "active"
-        )
-    );
-
-
-  document
-    .querySelectorAll(
-      ".tab"
-    )
-    .forEach(
-      x=>
-        x.classList.remove(
-          "active"
-        )
-    );
-
-
-  document
-    .getElementById(
-      "week-"+week
-    )
-    .classList.add(
-      "active"
-    );
-
-
-  button.classList.add(
-    "active"
+function showWeek(week,button){
+  document.querySelectorAll(".week").forEach(
+    x=>x.classList.remove("active")
   );
+
+  document.querySelectorAll(".tab").forEach(
+    x=>x.classList.remove("active")
+  );
+
+  $("week-"+week).classList.add("active");
+  button.classList.add("active");
 }
 
+// Start und Ereignisse.
+const now=new Date();
 
-renderAWeek();
+for(const id of employees){
+  const option=document.createElement("option");
+  option.value=id;
+  option.textContent=id;
+  $("guestReplacement").appendChild(option);
+}
+
+function guestDefaults(){
+  $("guestStart").value=$("planDate").value+"T07:00";
+  $("guestEnd").value=$("planDate").value+"T19:00";
+}
+
+$("planDate").value=dateText(now);
+guestDefaults();
+
+$("planTime").value=
+  String(now.getHours()).padStart(2,"0")+":"+
+  String(now.getMinutes()).padStart(2,"0");
+
+$("planDate").onchange=()=>{
+  if($("planDate").value){
+    guestDefaults();
+    refresh();
+  }
+};
+
+$("planTime").onchange=()=>{
+  if($("planTime").value) refresh();
+};
+
+$("editPerson").onchange=renderEditor;
+
+$("basePresent").onchange=()=>{
+  const id=$("editPerson").value;
+  const w=weekData();
+
+  w.base=w.base.filter(x=>x!==id);
+  if($("basePresent").checked) w.base.push(id);
+
+  save();
+  refresh();
+};
+
+$("guestCode").oninput=()=>{
+  $("guestCode").setCustomValidity("");
+};
+
+$("guestForm").onsubmit=event=>{
+  event.preventDefault();
+
+  const field=$("guestCode");
+  const id=field.value.trim().replace(/^0+(?=\d)/,"");
+
+  if(!/^[0-9]{1,10}$/.test(id)){
+    field.setCustomValidity("Bitte 1–10 Ziffern eingeben.");
+    field.reportValidity();
+    return;
+  }
+
+  if(allPeople().includes(id)){
+    field.setCustomValidity("Dieser Zahlencode ist bereits vorhanden.");
+    field.reportValidity();
+    return;
+  }
+
+  const start=$("guestStart").value;
+  const end=$("guestEnd").value;
+  const weekStart=mondayOf($("planDate").value);
+
+  const next=dateObject(weekStart);
+  next.setDate(next.getDate()+7);
+
+  if(
+    !start ||
+    !end ||
+    end<=start ||
+    start<weekStart+"T00:00" ||
+    end>dateText(next)+"T00:00"
+  ){
+    $("guestEnd").setCustomValidity(
+      "Ende muss nach Beginn liegen, innerhalb der ausgewählten Woche "+
+      "(höchstens Montag danach um 00:00)."
+    );
+    $("guestEnd").reportValidity();
+    return;
+  }
+
+  const roles=[
+    ...document.querySelectorAll('[name="guestRole"]:checked')
+  ].map(x=>x.value);
+
+  const w=weekData();
+
+  w.guests.push({
+    id,
+    roles,
+    replacement:$("guestReplacement").value
+  });
+
+  for(const date of datesOfWeek($("planDate").value)){
+    const nextDay=dateObject(date);
+    nextDay.setDate(nextDay.getDate()+1);
+
+    const dayStart=date+"T00:00";
+    const dayEnd=dateText(nextDay)+"T00:00";
+
+    if(start>=dayEnd || end<=dayStart) continue;
+
+    const from=start<=dayStart?"00:00":start.slice(11,16);
+    const to=end>=dayEnd?"24:00":end.slice(11,16);
+
+    const mode=from==="00:00"
+      ?(to==="24:00"?"full":"until")
+      :(to==="24:00"?"from":"range");
+
+    w.overrides[date] ||= {};
+    w.overrides[date][id]={
+      mode,
+      from,
+      to:to==="24:00"?"23:59":to
+    };
+  }
+
+  save();
+  $("guestForm").reset();
+  guestDefaults();
+  refresh();
+  $("editPerson").value=id;
+  renderEditor();
+};
+
+$("guestStart").oninput=$("guestEnd").oninput=()=>{
+  $("guestEnd").setCustomValidity("");
+};
+
+refresh();
 renderBWeek();
-
-
-const savedPlan=
-  JSON.parse(
-    localStorage.getItem(
-      "aWeekPlan"
-    )
-  );
-
-
-if(savedPlan){
-  renderPlan(savedPlan);
-}
-
 </script>
-
 </body>
 </html>
