@@ -372,7 +372,11 @@ function renderAWeek(){
 
     b.onclick=()=>{
       present.push(id);
-      present.sort((x,y)=>employees.indexOf(x)-employees.indexOf(y));
+
+      present.sort(
+        (x,y)=>employees.indexOf(x)-employees.indexOf(y)
+      );
+
       saveAttendance();
     };
 
@@ -385,6 +389,7 @@ function renderAWeek(){
   document.getElementById("absentCount").textContent=
     "Gesamt: "+absent.length;
 }
+
 
 function saveAttendance(){
 
@@ -400,10 +405,6 @@ function saveAttendance(){
   renderAWeek();
 }
 
-
-function hasQualification(id,q){
-  return qualifications[id]?.includes(q);
-}
 
 function firstAvailable(candidates,used){
 
@@ -428,101 +429,188 @@ function createPlan(){
   let trooper2=null;
 
 
-  // Führung
-  if(present.includes("310")){
-    leader="310";
-    used.add("310");
+  /*
+    FÜHRUNGSLOGIK
+
+    Priorität:
+    310 > 320 > 311 > 314
+
+    Dieselbe Reihenfolge gilt für GF und TF.
+    Wer bereits GF ist, wird beim TF übersprungen.
+  */
+
+  const leadershipPriority=[
+    "310",
+    "320",
+    "311",
+    "314"
+  ];
+
+
+  // GF / Führung
+  leader=firstAvailable(
+    leadershipPriority,
+    used
+  );
+
+  if(leader){
+    used.add(leader);
   }else{
     warnings.push(
-      "Keine reguläre Führung vorhanden: 310 ist abwesend."
+      "GF / Führung kann nicht besetzt werden."
     );
   }
 
 
-  // Stellvertreter
-  if(present.includes("320") && !used.has("320")){
-    deputy="320";
-  }else if(present.includes("311") && !used.has("311")){
-    deputy="311";
-  }else if(present.includes("314") && !used.has("314")){
-    deputy="314";
-  }
+  // TF / Stellvertreter
+  deputy=firstAvailable(
+    leadershipPriority,
+    used
+  );
 
   if(deputy){
     used.add(deputy);
   }else{
-    warnings.push("Kein Stellvertreter verfügbar.");
+    warnings.push(
+      "TF / Stellvertreter kann nicht besetzt werden."
+    );
   }
 
 
   /*
-    OT:
+    OT
+
+    Aktuell regulär verfügbar:
+    315 und 317
+
     319 und 911 werden erst ab Frühjahr 2027
-    als OT berücksichtigt.
+    für OT berücksichtigt.
   */
 
-  const otCandidates=["315","317"];
+  const otCandidates=[
+    "315",
+    "317"
+  ];
 
-  ot1=firstAvailable(otCandidates,used);
+
+  ot1=firstAvailable(
+    otCandidates,
+    used
+  );
 
   if(ot1){
     used.add(ot1);
   }
 
-  ot2=firstAvailable(otCandidates,used);
+
+  ot2=firstAvailable(
+    otCandidates,
+    used
+  );
 
   if(ot2){
     used.add(ot2);
   }
 
+
   if(!ot1 || !ot2){
-    warnings.push("Zwei OT können aktuell nicht besetzt werden.");
+    warnings.push(
+      "Zwei OT können aktuell nicht besetzt werden."
+    );
   }
 
 
-  // PS
-  const psCandidates=["316","318","311","310"];
+  /*
+    PS
+  */
 
-  ps=firstAvailable(psCandidates,used);
+  const psCandidates=[
+    "316",
+    "318",
+    "311",
+    "310"
+  ];
+
+  ps=firstAvailable(
+    psCandidates,
+    used
+  );
 
   if(ps){
     used.add(ps);
   }else{
-    warnings.push("Kein PS verfügbar.");
+    warnings.push(
+      "PS kann nicht besetzt werden."
+    );
   }
 
 
-  // San
-  const sanCandidates=["322","314"];
+  /*
+    SAN
+  */
 
-  san=firstAvailable(sanCandidates,used);
+  const sanCandidates=[
+    "322",
+    "314"
+  ];
+
+  san=firstAvailable(
+    sanCandidates,
+    used
+  );
 
   if(san){
     used.add(san);
   }else{
-    warnings.push("Kein San verfügbar.");
+    warnings.push(
+      "San kann nicht besetzt werden."
+    );
   }
 
 
-  // Trooper
-  const remaining=present.filter(id=>!used.has(id));
+  /*
+    TROOPER
+  */
+
+  let remaining=
+    present.filter(
+      id=>!used.has(id)
+    );
+
 
   if(remaining.length){
+
     trooper1=remaining.shift();
+
     used.add(trooper1);
   }
 
+
   if(remaining.length){
+
     trooper2=remaining.shift();
+
     used.add(trooper2);
   }
 
+
   if(!trooper1 || !trooper2){
-    warnings.push("Zwei Trooper können nicht vollständig besetzt werden.");
+
+    warnings.push(
+      "Zwei Trooper können nicht vollständig besetzt werden."
+    );
   }
 
 
-  const reserve=present.filter(id=>!used.has(id));
+  /*
+    RESERVE
+  */
+
+  const reserve=
+    present.filter(
+      id=>!used.has(id)
+    );
+
 
   const plan={
     leader,
@@ -537,10 +625,12 @@ function createPlan(){
     warnings
   };
 
+
   localStorage.setItem(
     "aWeekPlan",
     JSON.stringify(plan)
   );
+
 
   renderPlan(plan);
 }
@@ -554,6 +644,7 @@ function vehicle(title,className,roles){
   `;
 
   roles.forEach(r=>{
+
     html+=`
     <div class="vehicle-row">
       <span class="role">${r[0]}</span>
@@ -581,27 +672,52 @@ function buildReserveGroups(reserve){
   const groups=[];
   let list=[...reserve];
 
+
   while(list.length>0){
 
     if(list.length===5){
-      groups.push(list.splice(0,2));
-      groups.push(list.splice(0,3));
+
+      groups.push(
+        list.splice(0,2)
+      );
+
+      groups.push(
+        list.splice(0,3)
+      );
+
       break;
     }
+
 
     if(list.length===6){
-      groups.push(list.splice(0,3));
-      groups.push(list.splice(0,3));
+
+      groups.push(
+        list.splice(0,3)
+      );
+
+      groups.push(
+        list.splice(0,3)
+      );
+
       break;
     }
+
 
     if(list.length<=4){
-      groups.push(list.splice(0,list.length));
+
+      groups.push(
+        list.splice(0,list.length)
+      );
+
       break;
     }
 
-    groups.push(list.splice(0,4));
+
+    groups.push(
+      list.splice(0,4)
+    );
   }
+
 
   return groups;
 }
@@ -609,9 +725,16 @@ function buildReserveGroups(reserve){
 
 function renderPlan(plan){
 
-  const area=document.getElementById("planArea");
+  const area=
+    document.getElementById("planArea");
 
-  let html=`<div class="plan-title">Kfz-Besatzung</div>`;
+
+  let html=`
+    <div class="plan-title">
+      Kfz-Besatzung
+    </div>
+  `;
+
 
   if(plan.warnings.length){
 
@@ -622,18 +745,22 @@ function renderPlan(plan){
     `;
   }
 
+
   html+=`
   <div class="summary">
-    Kernbesatzung: ${[
-      plan.leader,
-      plan.deputy,
-      plan.ot1,
-      plan.ot2,
-      plan.ps,
-      plan.san,
-      plan.trooper1,
-      plan.trooper2
-    ].filter(Boolean).length} / 8
+    Kernbesatzung:
+    ${
+      [
+        plan.leader,
+        plan.deputy,
+        plan.ot1,
+        plan.ot2,
+        plan.ps,
+        plan.san,
+        plan.trooper1,
+        plan.trooper2
+      ].filter(Boolean).length
+    } / 8
     · Reserve: ${plan.reserve.length}
     · Gesamt: ${present.length}
   </div>
@@ -644,8 +771,14 @@ function renderPlan(plan){
     "Fahrzeug 1",
     "green",
     [
-      ["Führung",plan.leader],
-      ["Trooper 1",plan.trooper1]
+      [
+        "GF / Führung",
+        plan.leader
+      ],
+      [
+        "Trooper 1",
+        plan.trooper1
+      ]
     ]
   );
 
@@ -654,8 +787,14 @@ function renderPlan(plan){
     "Fahrzeug 2",
     "blue",
     [
-      ["Stellvertreter",plan.deputy],
-      ["OT 1",plan.ot1]
+      [
+        "TF / Stellvertreter",
+        plan.deputy
+      ],
+      [
+        "OT 1",
+        plan.ot1
+      ]
     ]
   );
 
@@ -664,8 +803,14 @@ function renderPlan(plan){
     "Fahrzeug 3",
     "red",
     [
-      ["OT 2",plan.ot2],
-      ["PS",plan.ps]
+      [
+        "OT 2",
+        plan.ot2
+      ],
+      [
+        "PS",
+        plan.ps
+      ]
     ]
   );
 
@@ -674,35 +819,54 @@ function renderPlan(plan){
     "Fahrzeug 4",
     "gray",
     [
-      ["San",plan.san],
-      ["Trooper 2",plan.trooper2]
+      [
+        "San",
+        plan.san
+      ],
+      [
+        "Trooper 2",
+        plan.trooper2
+      ]
     ]
   );
 
 
-  const reserveGroups=buildReserveGroups(plan.reserve);
+  const reserveGroups=
+    buildReserveGroups(
+      plan.reserve
+    );
 
-  reserveGroups.forEach((group,index)=>{
 
-    html+=`
-    <div class="vehicle reserve">
-      <div class="vehicle-title">
-        Reservefahrzeug ${index+1}
-      </div>
-    `;
-
-    group.forEach(id=>{
+  reserveGroups.forEach(
+    (group,index)=>{
 
       html+=`
-      <div class="vehicle-row">
-        <span class="role">Reserve</span>
-        <span class="number">${id}</span>
-      </div>
+      <div class="vehicle reserve">
+        <div class="vehicle-title">
+          Reservefahrzeug ${index+1}
+        </div>
       `;
-    });
 
-    html+="</div>";
-  });
+
+      group.forEach(id=>{
+
+        html+=`
+        <div class="vehicle-row">
+          <span class="role">
+            Reserve
+          </span>
+
+          <span class="number">
+            ${id}
+          </span>
+        </div>
+        `;
+      });
+
+
+      html+="</div>";
+    }
+  );
 
 
   if(plan.reserve.length===1){
@@ -710,7 +874,7 @@ function renderPlan(plan){
     html+=`
     <div class="warning">
       Reserve enthält nur eine Person.
-      Ein Einzelfahrer ist nach der Planungsregel nicht zulässig.
+      Ein Einzelfahrer ist nicht zulässig.
     </div>
     `;
   }
@@ -722,111 +886,225 @@ function renderPlan(plan){
 
 function resetAWeek(){
 
-  if(!confirm("A-Woche wirklich zurücksetzen?")){
+  if(
+    !confirm(
+      "A-Woche wirklich zurücksetzen?"
+    )
+  ){
     return;
   }
 
-  present=[...employees];
 
-  localStorage.removeItem("aWeekPresent");
-  localStorage.removeItem("aWeekPlan");
+  present=[
+    ...employees
+  ];
 
-  document.getElementById("planArea").innerHTML="";
+
+  localStorage.removeItem(
+    "aWeekPresent"
+  );
+
+  localStorage.removeItem(
+    "aWeekPlan"
+  );
+
+
+  document.getElementById(
+    "planArea"
+  ).innerHTML="";
+
 
   renderAWeek();
 }
 
 
 
-/* B-WOCHE */
+/*
+  B-WOCHE
+*/
 
 const days=[
-"Montag",
-"Dienstag",
-"Mittwoch",
-"Donnerstag",
-"Freitag",
-"Samstag",
-"Sonntag"
+  "Montag",
+  "Dienstag",
+  "Mittwoch",
+  "Donnerstag",
+  "Freitag",
+  "Samstag",
+  "Sonntag"
 ];
 
+
 let bPlan=
-JSON.parse(localStorage.getItem("bWeekPlan")) || {};
+  JSON.parse(
+    localStorage.getItem(
+      "bWeekPlan"
+    )
+  ) || {};
+
 
 function renderBWeek(){
 
-  const container=document.getElementById("bWeek");
+  const container=
+    document.getElementById(
+      "bWeek"
+    );
+
 
   container.innerHTML="";
 
+
   days.forEach(day=>{
 
-    const card=document.createElement("div");
+    const card=
+      document.createElement(
+        "div"
+      );
 
-    card.className="b-card";
+    card.className=
+      "b-card";
 
-    const title=document.createElement("div");
 
-    title.className="day";
-    title.textContent=day;
+    const title=
+      document.createElement(
+        "div"
+      );
 
-    card.appendChild(title);
+    title.className=
+      "day";
+
+    title.textContent=
+      day;
+
 
     card.appendChild(
-      createShift(day,"day","08:00–20:00")
+      title
     );
+
 
     card.appendChild(
-      createShift(day,"night","20:00–08:00")
+      createShift(
+        day,
+        "day",
+        "08:00–20:00"
+      )
     );
 
-    container.appendChild(card);
+
+    card.appendChild(
+      createShift(
+        day,
+        "night",
+        "20:00–08:00"
+      )
+    );
+
+
+    container.appendChild(
+      card
+    );
   });
 }
 
 
-function createShift(day,type,label){
+function createShift(
+  day,
+  type,
+  label
+){
 
-  const row=document.createElement("div");
-  row.className="shift";
+  const row=
+    document.createElement(
+      "div"
+    );
 
-  const name=document.createElement("span");
-  name.textContent=label;
+  row.className=
+    "shift";
 
-  const select=document.createElement("select");
 
-  const empty=document.createElement("option");
+  const name=
+    document.createElement(
+      "span"
+    );
+
+  name.textContent=
+    label;
+
+
+  const select=
+    document.createElement(
+      "select"
+    );
+
+
+  const empty=
+    document.createElement(
+      "option"
+    );
+
   empty.value="";
-  empty.textContent="– auswählen –";
 
-  select.appendChild(empty);
+  empty.textContent=
+    "– auswählen –";
 
-  employees.forEach(employee=>{
 
-    const option=document.createElement("option");
+  select.appendChild(
+    empty
+  );
 
-    option.value=employee;
-    option.textContent=employee;
 
-    select.appendChild(option);
-  });
+  employees.forEach(
+    employee=>{
 
-  const key=day+"_"+type;
+      const option=
+        document.createElement(
+          "option"
+        );
 
-  select.value=bPlan[key] || "";
+      option.value=
+        employee;
+
+      option.textContent=
+        employee;
+
+
+      select.appendChild(
+        option
+      );
+    }
+  );
+
+
+  const key=
+    day+"_"+type;
+
+
+  select.value=
+    bPlan[key] || "";
+
 
   select.onchange=()=>{
 
-    bPlan[key]=select.value;
+    bPlan[key]=
+      select.value;
+
 
     localStorage.setItem(
       "bWeekPlan",
-      JSON.stringify(bPlan)
+      JSON.stringify(
+        bPlan
+      )
     );
   };
 
-  row.appendChild(name);
-  row.appendChild(select);
+
+  row.appendChild(
+    name
+  );
+
+  row.appendChild(
+    select
+  );
+
 
   return row;
 }
@@ -834,39 +1112,82 @@ function createShift(day,type,label){
 
 function resetBWeek(){
 
-  if(!confirm("B-Woche wirklich zurücksetzen?")){
+  if(
+    !confirm(
+      "B-Woche wirklich zurücksetzen?"
+    )
+  ){
     return;
   }
 
+
   bPlan={};
 
-  localStorage.removeItem("bWeekPlan");
+
+  localStorage.removeItem(
+    "bWeekPlan"
+  );
+
 
   renderBWeek();
 }
 
 
-function showWeek(week,button){
-
-  document.querySelectorAll(".week")
-  .forEach(x=>x.classList.remove("active"));
-
-  document.querySelectorAll(".tab")
-  .forEach(x=>x.classList.remove("active"));
+function showWeek(
+  week,
+  button
+){
 
   document
-  .getElementById("week-"+week)
-  .classList.add("active");
+    .querySelectorAll(
+      ".week"
+    )
+    .forEach(
+      x=>
+        x.classList.remove(
+          "active"
+        )
+    );
 
-  button.classList.add("active");
+
+  document
+    .querySelectorAll(
+      ".tab"
+    )
+    .forEach(
+      x=>
+        x.classList.remove(
+          "active"
+        )
+    );
+
+
+  document
+    .getElementById(
+      "week-"+week
+    )
+    .classList.add(
+      "active"
+    );
+
+
+  button.classList.add(
+    "active"
+  );
 }
 
 
 renderAWeek();
 renderBWeek();
 
+
 const savedPlan=
-JSON.parse(localStorage.getItem("aWeekPlan"));
+  JSON.parse(
+    localStorage.getItem(
+      "aWeekPlan"
+    )
+  );
+
 
 if(savedPlan){
   renderPlan(savedPlan);
